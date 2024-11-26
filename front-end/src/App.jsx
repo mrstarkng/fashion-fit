@@ -11,6 +11,7 @@ import Orders from './pages/Orders'
 import Product from './pages/Product'
 import AI from './pages/AI'
 import Cart from './pages/Cart'
+import Footer from './components/Footer'
 
 
 
@@ -33,8 +34,10 @@ const App = () => {
             <Route path='/place-order' element={<PlaceOrder />} />
             <Route path='/orders' element={<Orders />} />
             
-          </Routes>
-        
+      </Routes>
+      <Footer />
+      
+    
       </div>
     
 
