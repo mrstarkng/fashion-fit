@@ -12,7 +12,8 @@ import Product from './pages/Product'
 import AI from './pages/AI'
 import Cart from './pages/Cart'
 import Footer from './components/Footer'
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -20,6 +21,7 @@ import Footer from './components/Footer'
 const App = () => {
   return (
     <div className='px-4 sm:px-[5vw] md:px- [7vw] lg:px-[9vw]'>
+      <ToastContainer />
      
     
           <Navbar />
