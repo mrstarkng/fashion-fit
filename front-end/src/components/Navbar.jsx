@@ -3,10 +3,11 @@ import { assets } from '../assets/assets';
 import { NavLink, Link } from 'react-router-dom';
 import { ShopContext } from '../context/ShopContext';
 import { useContext } from 'react';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const [visible, setVisible] = useState(false);
-    const { setShowSearch } = useContext(ShopContext);
+    const { setShowSearch, getCartCount } = useContext(ShopContext);
     
 
     return (
@@ -59,7 +60,7 @@ const Navbar = () => {
                 <Link to='/cart' className='relative'>
                     <img src={assets.cart_icon} className='w-5 cursor-pointer' alt="Cart Icon" />
                     <p className='absolute right-[-5px] bottom-[-5px] bg-black text-white w-4 leading-4 h-4 flex items-center justify-center aspect-square rounded-full text-[8px]'>
-                        0
+                        {getCartCount()}
                     </p>
                 </Link>
 

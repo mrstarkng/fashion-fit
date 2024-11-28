@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { products } from "../assets/assets";
 import { toast } from "react-toastify";
 
+
 export const ShopContext = createContext({
   products: [],
   currency: { code: "", symbol: "" }, // Default structure for currency
@@ -14,6 +15,7 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(true);
   const [cartItems, setCartItems] = useState({});
+  
 
   const addToCart = (itemId, size) => {
     if (!size) {
@@ -39,14 +41,10 @@ const ShopContextProvider = ({ children }) => {
 
   const getCartCount = () => {
     let totalCount = 0;
-    for (const item in cartItems) {
-      for (const item in cartItems[item]) {
-        try {
-          if (cartItems[item][size] > 0) {
-            totalCount += cartItems[item][size];
-          }
-        } catch (error) {
-          console.error("Error in getCartCount:", error);
+    for (const itemId in cartItems) {
+      for (const size in cartItems[itemId]) {
+        if (cartItems[itemId][size] > 0) {
+          totalCount += cartItems[itemId][size];
         }
       }
     }
@@ -70,6 +68,8 @@ const ShopContextProvider = ({ children }) => {
       toast.info("Item removed from cart!");
     }
   };
+
+ 
 
   useEffect(() => {
     console.log("Updated Cart Items:", cartItems); // Log updated cart items
