@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 import { products } from "../assets/assets";
 import { toast } from "react-toastify";
-
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext({
   products: [],
@@ -15,6 +15,7 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(true);
   const [cartItems, setCartItems] = useState({});
+  const navigate = useNavigate();
   
 
   const addToCart = (itemId, size) => {
@@ -36,7 +37,7 @@ const ShopContextProvider = ({ children }) => {
     }
 
     setCartItems(cartData);
-    toast.success("Item added to cart!");
+   
   };
 
   const getCartCount = () => {
@@ -65,7 +66,7 @@ const ShopContextProvider = ({ children }) => {
         }
       }
       setCartItems(cartData);
-      toast.info("Item removed from cart!");
+      
     }
   };
 
@@ -74,6 +75,29 @@ const ShopContextProvider = ({ children }) => {
   useEffect(() => {
     console.log("Updated Cart Items:", cartItems); // Log updated cart items
   }, [cartItems]);
+
+  const updateQuantity = async (itemId, size, quantity) => {
+    const cartData = structuredClone(cartItems);
+    cartData[itemId][size] = quantity;
+    setCartItems(cartData);
+  };
+
+  const getCartAmount =  () => {
+    let totalAmount = 0;
+    for (const items in cartItems) {
+      const itemInfo = products.find((p) => p._id === items);
+      for (const size in cartItems[items]) {
+        try {
+          if (cartItems[items][size] > 0) {
+            totalAmount += itemInfo.price * cartItems[items][size];
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    return totalAmount;
+  };
 
   const value = {
     products,
@@ -87,6 +111,9 @@ const ShopContextProvider = ({ children }) => {
     addToCart,
     removeFromCart, // Expose `removeFromCart` function
     getCartCount,
+    updateQuantity,
+    getCartAmount,
+    navigate,
   };
 
   return (
