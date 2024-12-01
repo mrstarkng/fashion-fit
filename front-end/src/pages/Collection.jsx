@@ -28,24 +28,28 @@ const Collection = () => {
   useEffect(() => {
     let filtered = [...products];
 
+    // Search filter
     if (search.trim() !== '') {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
+    // Category filter
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((product) =>
         selectedCategories.includes(product.category)
       );
     }
 
+    // Subcategory (type) filter
     if (selectedTypes.length > 0) {
       filtered = filtered.filter((product) =>
-        selectedTypes.includes(product.type)
+        selectedTypes.includes(product.subCategory) // Change `type` to `subCategory`
       );
     }
 
+    // Sorting logic
     switch (sortOption) {
       case 'price_asc':
         filtered.sort((a, b) => Number(a.price) - Number(b.price));
@@ -149,7 +153,7 @@ const Collection = () => {
             <Title text1={'ALL'} text2={'COLLECTIONS'} />
 
             {/* Product Sort */}
-            <div className="relative inline-block ">
+            <div className="relative inline-block">
               <label htmlFor="sortOption" className="sr-only">
                 Sort Products
               </label>
