@@ -25,32 +25,27 @@ const Collection = () => {
     );
   };
 
-  // Filter and sort products
   useEffect(() => {
     let filtered = [...products];
 
-    // Apply search filter
     if (search.trim() !== '') {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(search.toLowerCase())
       );
     }
 
-    // Apply category filter
     if (selectedCategories.length > 0) {
       filtered = filtered.filter((product) =>
         selectedCategories.includes(product.category)
       );
     }
 
-    // Apply type filter
     if (selectedTypes.length > 0) {
       filtered = filtered.filter((product) =>
         selectedTypes.includes(product.type)
       );
     }
 
-    // Apply sorting logic
     switch (sortOption) {
       case 'price_asc':
         filtered.sort((a, b) => Number(a.price) - Number(b.price));
@@ -65,7 +60,7 @@ const Collection = () => {
         filtered.sort((a, b) => b.name.localeCompare(a.name));
         break;
       case 'latest':
-        filtered.sort((a, b) => b.date - a.date); // Assuming `date` is a timestamp
+        filtered.sort((a, b) => b.date - a.date);
         break;
       default:
         break;
@@ -75,17 +70,17 @@ const Collection = () => {
   }, [products, search, selectedCategories, selectedTypes, sortOption]);
 
   return (
-    <div className='pt-10 border-t'>
+    <div className="pt-10 border-t">
       {/* Search Bar */}
       <SearchBar />
 
       {/* Filter Options */}
-      <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 mt-5'>
+      <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 mt-5">
         {/* Filter Section */}
-        <div className='min-w-60'>
+        <div className="min-w-60">
           <p
             onClick={() => setShowFilter(!showFilter)}
-            className='my-2 text-xl flex items-center cursor-pointer gap-2'
+            className="my-2 text-xl flex items-center cursor-pointer gap-2"
           >
             Filters
             <img
@@ -101,15 +96,15 @@ const Collection = () => {
               showFilter ? '' : 'hidden'
             } sm:block`}
           >
-            <p className='mb-3 text-sm font-medium text-gray-800'>CATEGORIES</p>
-            <div className='flex flex-col gap-2 text-sm font-light text-gray-600'>
+            <p className="mb-3 text-sm font-medium text-gray-800">CATEGORIES</p>
+            <div className="flex flex-col gap-2 text-sm font-light text-gray-600">
               {['Men', 'Women', 'Kids'].map((category) => (
                 <label
                   key={category}
-                  className='flex items-center gap-2 cursor-pointer hover:text-gray-800'
+                  className="flex items-center gap-2 cursor-pointer hover:text-gray-800"
                 >
                   <input
-                    className='w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 rounded-sm'
+                    className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 rounded-sm"
                     type="checkbox"
                     value={category}
                     checked={selectedCategories.includes(category)}
@@ -127,15 +122,15 @@ const Collection = () => {
               showFilter ? '' : 'hidden'
             } sm:block`}
           >
-            <p className='mb-3 text-sm font-medium text-gray-800'>TYPE</p>
-            <div className='flex flex-col gap-2 text-sm font-light text-gray-600'>
+            <p className="mb-3 text-sm font-medium text-gray-800">TYPE</p>
+            <div className="flex flex-col gap-2 text-sm font-light text-gray-600">
               {['Topwear', 'Bottomwear', 'Winterwear'].map((type) => (
                 <label
                   key={type}
-                  className='flex items-center gap-2 cursor-pointer hover:text-gray-800'
+                  className="flex items-center gap-2 cursor-pointer hover:text-gray-800"
                 >
                   <input
-                    className='w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 rounded-sm'
+                    className="w-4 h-4 text-indigo-600 border-gray-300 focus:ring-indigo-500 rounded-sm"
                     type="checkbox"
                     value={type}
                     checked={selectedTypes.includes(type)}
@@ -149,24 +144,48 @@ const Collection = () => {
         </div>
 
         {/* Products Section */}
-        <div className='flex-1'>
-          <div className='flex justify-between text-base sm:text-2xl mb-4'>
+        <div className="flex-1">
+          <div className="flex justify-between items-center text-base sm:text-2xl mb-4">
             <Title text1={'ALL'} text2={'COLLECTIONS'} />
+
             {/* Product Sort */}
-            <select
-              className='border-2 border-gray-300 rounded-md text-sm px-2'
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)} // Update sort option
-            >
-              <option value="latest">Latest</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-              <option value="name_asc">Name: A to Z</option>
-              <option value="name_desc">Name: Z to A</option>
-            </select>
+            <div className="relative inline-block ">
+              <label htmlFor="sortOption" className="sr-only">
+                Sort Products
+              </label>
+              <select
+                id="sortOption"
+                className="appearance-none border border-gray-300 rounded-md text-sm px-5 py-2 bg-white text-gray-700 shadow-sm hover:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300"
+                value={sortOption}
+                onChange={(e) => setSortOption(e.target.value)}
+              >
+                <option value="latest">Latest</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+                <option value="name_asc">Name: A to Z</option>
+                <option value="name_desc">Name: Z to A</option>
+              </select>
+              <div className="absolute right-1 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
+            </div>
           </div>
+
           {/* Product Grid */}
-          <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((item, index) => (
                 <ProductItem
@@ -178,7 +197,9 @@ const Collection = () => {
                 />
               ))
             ) : (
-              <p className='col-span-full text-center text-gray-500'>No products found.</p>
+              <p className="col-span-full text-center text-gray-500">
+                No products found.
+              </p>
             )}
           </div>
         </div>

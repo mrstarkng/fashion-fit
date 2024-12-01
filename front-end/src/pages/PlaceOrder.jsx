@@ -2,9 +2,16 @@ import React from 'react'
 import Title from '../components/Title'
 import CartTotal from '../components/CartTotal'
 import { assets } from '../assets/assets'
-
-
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ShopContext } from '../context/ShopContext'
 const PlaceOrder = () => {
+  const [method, setMethod] = useState("cod");
+  const navigate = useNavigate(ShopContext)
+
+
+
+
   return (
     <div className='flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh] border-t' >
       {/* left side */}
@@ -40,13 +47,23 @@ const PlaceOrder = () => {
         <div className='mt-12 '>
           <Title text1="PAYMENT" text2="METHOD" />
           {/* payment method */}
-          <div className='flex flex-col gap-4'>
-            <div className='flex items-center gap-2'>
-              <img src={assets.visa_icon} alt='visa' className='w-10 h-10' />
-              <p className='text-lg font-semibold'>Credit / Debit Card</p>
-              <img src={assets.right_arrow} alt='right arrow' className='w-5 h-5' />
-
+          <div className='flex gap-3 flex-col lg:flex-row '>
+            <div onClick={() => setMethod("visa")} className='flex items-center gap-3 border p-2 px-3 cursor-pointer hover:shadow-lg transition-all duration-300'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "visa" ? " bg-blue-900" : "bg-gray-200"}`}></p>
+              <img  className='h-10 mx-4' src={assets.stripe_logo} alt='visa' />
             </div>
+             <div onClick={() => setMethod("mastercard")} className='flex items-center gap-3 border p-2 px-3 cursor-pointer hover:shadow-lg transition-all duration-300'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "mastercard" ? " bg-blue-900" : "bg-gray-200"}`}></p>
+              <img  className='h-10 mx-4' src={assets.razorpay_logo} alt='visa' />
+            </div>
+            <div onClick={() => setMethod("cod")} className='flex items-center gap-3 border p-2 px-3 cursor-pointer hover:shadow-lg transition-all duration-300'>
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${method === "cod" ? " bg-blue-900" : "bg-gray-200"}`}></p>
+              <p className='text-gray-500 text-sm font-medium mx-4 '>CASH ON DELIVERY</p>
+            </div>
+          </div>
+
+          <div className='w-full text-end mt-8'>
+            <button onClick={() => navigate("/orders")} className='w-full bg-black text-white p-2 rounded-md text-sm font-medium'>PLACE ORDER</button>
           </div>
 
         </div>
