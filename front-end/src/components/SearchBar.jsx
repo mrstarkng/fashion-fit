@@ -9,14 +9,14 @@ const SearchBar = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Ensure visibility is set only for the '/collection' route
+    // Toggle visibility only for the `/collection` route
     setVisible(location.pathname === '/collection');
+  }, [location]);
 
-    // Reset `showSearch` to false on page load or location change
+  const handleSearchClose = () => {
+    setSearch(''); // Clear search input when closing
     setShowSearch(false);
-  }, [location, setShowSearch]);
-
-  const placeholderText = visible ? 'Search in collection...' : 'Search for products...';
+  };
 
   return showSearch && visible ? (
     <div className='border-t border-b border-gray-50 text-center bg-gray-100'>
@@ -25,17 +25,21 @@ const SearchBar = () => {
         <input
           className='flex-1 outline-none bg-inherit text-sm text-gray-800 placeholder-gray-500'
           type='text'
-          placeholder={placeholderText}
+          placeholder='Search in collection...'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           aria-label='Search products'
         />
-        <img className='w-4 cursor-pointer' src={assets.search_icon} alt='search' />
+        <img
+          className='w-4 cursor-pointer'
+          src={assets.search_icon}
+          alt='search'
+        />
       </div>
 
       {/* Close Button */}
       <img
-        onClick={() => setShowSearch(false)}
+        onClick={handleSearchClose}
         className='inline w-4 cursor-pointer hover:scale-110 transition-transform'
         src={assets.cross_icon}
         alt='close'
