@@ -21,7 +21,7 @@ const AI = () => {
             {/* Placeholder for the avatar or user-uploaded image */}
             <p className="text-gray-400">Upload your photo or customize your avatar.</p>
           </div>
-          <button className="absolute top-5 right-5 bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-900 transition">
+          <button className="absolute top-3 right-5 bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-900 transition">
             Upload Photo
           </button>
         </div>
