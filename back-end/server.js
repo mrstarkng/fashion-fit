@@ -7,6 +7,8 @@ import helmet from 'helmet'; // Add security headers
 // App Config
 const app = express();
 const port = process.env.PORT || 4000;
+connectCloudinary()
+connectDB()
 
 // Ensure environment variables are set
 if (!process.env.MONGODB_URL) {
