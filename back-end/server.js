@@ -1,34 +1,40 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
-import connectDB from './config/mongodb.js';
 import helmet from 'helmet'; // Add security headers
+import connectDB from './config/mongodb.js';
+import connectCloudinary from './config/cloudinary.js';
+import userRouter from './routes/userroute.js';
 
 // App Config
 const app = express();
 const port = process.env.PORT || 4000;
-connectCloudinary()
-connectDB()
 
 // Ensure environment variables are set
-if (!process.env.MONGODB_URL) {
-  console.error('Error: MONGODB_URL is not set in the environment variables.');
-  process.exit(1);
+if (!process.env.MONGODB_URL || !process.env.CLOUDINARY_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+  console.error('Error: Missing required environment variables.');
+  process.exit(1); // Exit the server if variables are missing
 }
 
-// Connect to Database
-connectDB().catch((err) => {
-  console.error('Failed to connect to MongoDB:', err);
-  process.exit(1); // Stop the server if the database connection fails
-});
+// Connect to Services
+(async () => {
+  try {
+    await connectDB(); // Connect to MongoDB
+    connectCloudinary(); // Configure Cloudinary
+    console.log('All services connected successfully.');
+  } catch (err) {
+    console.error('Failed to connect to services:', err);
+    process.exit(1); // Stop the server if connections fail
+  }
+})();
 
 // Middlewares
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Increase JSON payload limit for large requests
 app.use(cors());
-app.use(helmet()); // Use helmet for security
+app.use(helmet());
 
 // API Endpoints
-app.get('/', (req, res) => res.status(200).send('Hello World'));
+app.use('/api/user', userRouter); // User routes
 
 // Handle Undefined Routes
 app.use((req, res) => {

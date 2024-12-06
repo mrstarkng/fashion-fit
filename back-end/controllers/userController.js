@@ -8,10 +8,13 @@ const loginUser = async (req, res) => {
 
 //route for register user
 const registerUser = async (req, res) => {
-    const { name, email, password } = req.body
+   res.json({message: ' Register API is working'})
 }
 
-//route for logout user
-const logoutUser = async (req, res) => {
-    res.json({ message: 'Logout successful' })
+//route for admin login 
+const adminLogin = async (req, res) => {
+    const { email, password } = req.body
 }
+
+export { loginUser, registerUser, adminLogin }
+
