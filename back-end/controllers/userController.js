@@ -8,7 +8,11 @@ const loginUser = async (req, res) => {
 
 //route for register user
 const registerUser = async (req, res) => {
-   res.json({message: ' Register API is working'})
+   try {
+    const { name, email, password } = req.body
+   } catch (error) {
+    res.status(500).json({message: error.message})
+   }
 }
 
 //route for admin login 
