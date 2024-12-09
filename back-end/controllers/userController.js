@@ -17,9 +17,15 @@ const registerUser = async (req, res) => {
            return res.json({success:false, message:"User already exists"})
        }
 
-       if (condition) {
+       if (!validator.isEmail(email)) {
+           return res.json({success:false, message:"Please enter a valid email"})
            
        }
+       if (password.length < 8) {
+           return res.json({success:false, message:"Please enter a strong password"})
+       }
+
+       
    } catch (error) {
     res.status(500).json({message: error.message})
    }
