@@ -5,6 +5,8 @@ import helmet from 'helmet'; // Add security headers
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import userRouter from './routes/userroute.js';
+import productRouter from './routes/productRoute.js';
+
 
 // App Config
 const app = express();
@@ -35,6 +37,13 @@ app.use(helmet());
 
 // API Endpoints
 app.use('/api/user', userRouter); // User routes
+app.use('/api/product', productRouter)
+
+app.get('/', (req, res) => {
+  res.send("API working")
+})
+
+
 
 // Handle Undefined Routes
 app.use((req, res) => {

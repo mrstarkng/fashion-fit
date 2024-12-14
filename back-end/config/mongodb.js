@@ -3,10 +3,7 @@ import mongoose from "mongoose";
 const connectDB = async () => {
   try {
     // MongoDB connection
-    await mongoose.connect(`${process.env.MONGODB_URL}/e-commerce`, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(process.env.MONGODB_URL);
 
     // Connection events
     mongoose.connection.on("connected", () => {
@@ -20,7 +17,6 @@ const connectDB = async () => {
     mongoose.connection.on("disconnected", () => {
       console.log("⚠️ Database disconnected");
     });
-
   } catch (error) {
     console.error("❌ Error connecting to database:", error.message);
     process.exit(1); // Exit process with failure
