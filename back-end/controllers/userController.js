@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
+
 // Helper function to create a JWT token
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

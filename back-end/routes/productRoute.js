@@ -9,18 +9,21 @@ productRouter.post(
   '/add',
   upload.fields([
     { name: 'image1', maxCount: 1 }, 
-    { name: 'image2', maxCount: 1 }
+    { name: 'image2', maxCount: 1 },
+    { name: 'image3', maxCount: 1 },
+    { name: 'image4', maxCount: 1 },
+
   ]), 
   addProduct
 );
 
 // Route to remove a product
-productRouter.delete('/:id', removeProducts); // Use DELETE method and pass product ID as a parameter
+productRouter.post('/remove', removeProducts); // Use DELETE method and pass product ID as a parameter
 
 // Route to fetch a single product
-productRouter.get('/:id', singleProduct); // Use GET method and pass product ID as a parameter
+productRouter.get('/single', singleProduct); // Use GET method and pass product ID as a parameter
 
 // Route to list all products
-productRouter.get('/', listProducts); // Use GET method for listing all products
+productRouter.get('/list', listProducts); // Use GET method for listing all products
 
 export default productRouter;
