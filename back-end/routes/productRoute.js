@@ -21,7 +21,7 @@ productRouter.post(
 productRouter.post('/remove', removeProducts); // Use DELETE method and pass product ID as a parameter
 
 // Route to fetch a single product
-productRouter.get('/single', singleProduct); // Use GET method and pass product ID as a parameter
+productRouter.post('/single', singleProduct); // Use GET method and pass product ID as a parameter
 
 // Route to list all products
 productRouter.get('/list', listProducts); // Use GET method for listing all products
