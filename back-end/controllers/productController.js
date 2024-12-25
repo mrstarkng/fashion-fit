@@ -1,5 +1,7 @@
 import Product from '../models/productModel.js'; // Assuming you have a Mongoose model for products
-import { v2 as cloudinary }  from "cloudinary"
+import { v2 as cloudinary } from "cloudinary"
+import mongoose from "mongoose";
+
 
 // Function to add a product
 const addProduct = async (req, res) => {
@@ -84,16 +86,11 @@ const removeProducts = async (req, res) => {
 // Function to get a single product by ID
 const singleProduct = async (req, res) => {
     try {
-        const { id } = req.params; // Get the product ID from the route parameter
-        const product = await Product.findById(id);
-
-        if (!product) {
-            return res.status(404).json({ success: false, message: "Product not found" });
-        }
-
-        res.status(200).json({ success: true, product });
+        const { productId } = req.body; // Get the product ID from the route parameter
+        const product = await Product.findById(productId);
+        res.json({ success: true, product });
     } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.json({ success: false, message: error.message });
     }
 };
 

@@ -84,27 +84,22 @@ const registerUser = async (req, res) => {
 
 // Route for admin login
 const adminLogin = async (req, res) => {
-  const { email, password } = req.body;
+  
 
   try {
     // Check if admin exists
-    const admin = await userModel.findOne({ email, isAdmin: true });
-    if (!admin) {
-      return res.json({ success: false, message: "Admin account does not exist" });
+    const { email, password } = req.body;
+    
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      const token = jwt.sign(email + password, process.env.JWR_SECRET);
+      res.json({success:true, token})
+    } else {
+      res.json({success:false, message:"Invalid credentials"})
     }
 
-    // Compare provided password with hashed password
-    const match = await bcrypt.compare(password, admin.password);
-    if (!match) {
-      return res.json({ success: false, message: "Incorrect password" });
-    }
-
-    // Create token
-    const token = createToken(admin._id);
-
-    res.json({ success: true, token, admin: { name: admin.name, email: admin.email } });
+     
   } catch (error) {
-    console.error(error);
+    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
